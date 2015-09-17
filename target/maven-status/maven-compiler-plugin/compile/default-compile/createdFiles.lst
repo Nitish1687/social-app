@@ -1,0 +1,10 @@
+com\nitish\controller\SocialUserController.class
+com\nitish\Bean\UserBean$UserBeanBuilder.class
+com\nitish\mapper\Mapper.class
+com\nitish\mapper\UserInfoMapper.class
+com\nitish\dto\UserDTO$UserDTOBuilder.class
+com\nitish\SocialAppApplication.class
+com\nitish\dto\Output.class
+com\nitish\service\SocialUserService.class
+com\nitish\Bean\UserBean.class
+com\nitish\dto\UserDTO.class

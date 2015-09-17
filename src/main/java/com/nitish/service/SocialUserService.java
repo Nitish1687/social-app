@@ -35,7 +35,7 @@ public class SocialUserService {
     }
 
     public UserBean addUser(UserBean userBean) {
-        ResponseEntity<UserDTO> userDTOResponseEntity = restTemplate.postForEntity(userService + "add/user", mapper.mapToDTO(userBean), UserDTO.class);
+        ResponseEntity<UserDTO> userDTOResponseEntity = restTemplate.postForEntity(userService + "/add/user", mapper.mapToDTO(userBean), UserDTO.class);
         return mapper.mapToBean(userDTOResponseEntity.getBody());
     }
 
