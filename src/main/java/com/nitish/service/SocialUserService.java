@@ -1,8 +1,11 @@
 package com.nitish.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nitish.Bean.Advertisement;
 import com.nitish.Bean.UserBean;
+import com.nitish.dto.UserAdvertisement;
 import com.nitish.dto.UserDTO;
+import com.nitish.mapper.UserAdvertisementMapper;
 import com.nitish.mapper.UserInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,11 +26,16 @@ public class SocialUserService {
     private RestTemplate restTemplate;
     @Autowired
     private UserInfoMapper mapper;
+    @Autowired
+    private UserAdvertisementMapper userAdvertisementMapper;
 
     @Value("${USER_SERVICE}")
     private String userService;
 
-    public UserBean getUserBy(int userId) throws IOException {
+    @Value("${ADVERTISEMENT_SERVICE}")
+    private String advertisementHost;
+
+    public UserBean getUserBy(int userId) {
         Map<String, Integer> uriParams = new HashMap<>();
         uriParams.put("userid", userId);
         ResponseEntity<UserDTO> forEntity = restTemplate.getForEntity(userService + "/get/{userid}/user", UserDTO.class, uriParams);
@@ -41,5 +49,12 @@ public class SocialUserService {
 
     private UserBean getBeanFromJson(String actualUserData, Class<UserBean> classType) throws IOException {
         return new ObjectMapper().readValue(actualUserData.getBytes(), classType);
+    }
+
+    public Advertisement getAdvertisedProductForUser(UserBean userBeanByID) {
+        Map<String, String> uriParams = new HashMap<>();
+        uriParams.put("emailId", userBeanByID.getEmailId());
+        ResponseEntity<UserAdvertisement> forEntity = restTemplate.getForEntity(advertisementHost + "/user/{emailId}/advertisement", UserAdvertisement.class, uriParams);
+        return  userAdvertisementMapper.mapToBean(forEntity.getBody());
     }
 }
